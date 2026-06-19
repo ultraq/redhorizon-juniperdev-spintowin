@@ -1,2 +1,6 @@
-# redhorizon-juniperdev-spintowin
-My attempt for the Very Serious Juniper Dev Game Jam.  Theme: Spin To Win
+
+redhorizon-juniperdev-spintowin
+===============================
+
+Using Red Horizon to try create an entry for the Very Serious Juniper Dev Game
+Jam.  Theme: Spin To Win

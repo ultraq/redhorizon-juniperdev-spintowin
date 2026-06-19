@@ -1,0 +1,54 @@
+/*
+ * Copyright 2026, Emanuel Rabina (http://www.ultraq.net.nz/)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+plugins {
+	id 'idea'
+	id 'nz.net.ultraq.gradle.fluent-configuration' version '0.9.4'
+}
+
+description = 'Using Red Horizon to try create an entry for the Very Serious Juniper Dev Game Jam.  Theme: Spin To Win'
+version = '0.1.0-SNAPSHOT'
+
+configure {
+	createGroovyApplicationProject() {
+		mainClass = 'nz.net.ultraq.spintowin.SpinToWin'
+	}
+		.useJavaVersion(25)
+		.useMavenCentralRepositories()
+		.configureSource()
+			.withSourceDirectory('source')
+			.withDependencies() {
+				implementation 'ch.qos.logback:logback-classic:1.5.34'
+				implementation 'info.picocli:picocli:4.7.7'
+				implementation 'io.github.spair:imgui-java-binding:1.90.0'
+				implementation 'nz.net.ultraq.groovy:joml-extensions:0.3.0'
+				implementation 'nz.net.ultraq.redhorizon:redhorizon-engine:0.43.0-SNAPSHOT'
+				implementation 'nz.net.ultraq.redhorizon:redhorizon-graphics:0.43.0-SNAPSHOT'
+				implementation 'nz.net.ultraq.redhorizon:redhorizon-input:0.43.0-SNAPSHOT'
+				implementation 'nz.net.ultraq.redhorizon:redhorizon-scenegraph:0.43.0-SNAPSHOT'
+				implementation 'org.apache.groovy:groovy:5.0.6'
+				implementation 'org.joml:joml:1.10.9'
+				implementation 'org.joml:joml-primitives:1.10.0'
+			}
+			.expandExtensionModuleVersion()
+}
+
+configurations.configureEach {
+	resolutionStrategy {
+		cacheChangingModulesFor 0, 'seconds'
+		cacheDynamicVersionsFor 0, 'seconds'
+	}
+}
