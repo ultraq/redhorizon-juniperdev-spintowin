@@ -14,32 +14,25 @@
  * limitations under the License.
  */
 
-package nz.net.ultraq.spintowin
+package nz.net.ultraq.spintowin.extensions
 
-import nz.net.ultraq.redhorizon.graphics.Camera
-import nz.net.ultraq.redhorizon.scenegraph.Scene
-import static nz.net.ultraq.spintowin.ScopedValues.WINDOW
+import org.joml.Vector2f
+import org.joml.Vector2fc
 
 /**
- * The scene for the Spin To Win game.
+ * Extensions to JOML's {@link Vector2f} class.
  *
  * @author Emanuel Rabina
  */
-class SpinToWinScene extends Scene {
+class Vector2fExtensions {
 
-	static final int WIDTH = 640
-	static final int HEIGHT = 480
-
-	final Camera camera
-	final Player player
+	private static final Vector2fc UP = new Vector2f(0f, 1f)
 
 	/**
-	 * Constructor, create an empty scene.
+	 * Return a reusable vector for the 'up' direction in this game.
 	 */
-	SpinToWinScene() {
+	static Vector2fc getUP(Vector2f self) {
 
-		var window = WINDOW.get()
-		camera = addAndReturnChild(new Camera(WIDTH, HEIGHT, window))
-		player = addAndReturnChild(new Player())
+		return UP
 	}
 }

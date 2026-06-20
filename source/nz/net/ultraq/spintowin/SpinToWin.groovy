@@ -65,12 +65,12 @@ class SpinToWin implements Runnable {
 
 		try {
 			// Init devices
-			window = new OpenGLWindow(640, 480, 'Spin To Win')
+			window = new OpenGLWindow(SpinToWinScene.WIDTH, SpinToWinScene.HEIGHT, 'Spin To Win')
 				.centerToScreen()
 				.scaleToFit()
 				.withBackgroundColour(Colour.BLACK)
 				.withVSync(true)
-			framebuffer = new OpenGLFramebuffer(640, 480)
+			framebuffer = new OpenGLFramebuffer(SpinToWinScene.WIDTH, SpinToWinScene.HEIGHT)
 			shader = new BasicShader()
 			var inputEventHandler = new InputEventHandler()
 				.addInputSource(window)
