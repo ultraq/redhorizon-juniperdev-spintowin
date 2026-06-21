@@ -25,6 +25,8 @@ import static nz.net.ultraq.spintowin.ScopedValues.RESOURCE_MANAGER
 
 import org.joml.Vector2f
 import org.joml.Vector3f
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * The player object in the scene.
@@ -33,14 +35,27 @@ import org.joml.Vector3f
  */
 class Player extends Node<Player> {
 
+	private static final Logger logger = LoggerFactory.getLogger(Player)
+
 	/**
 	 * Constructor, creates a new player object.
 	 */
 	Player() {
 
 		var resourceManager = RESOURCE_MANAGER.get()
-		addChild(new Sprite(resourceManager.loadImage('ship_E.png')))
-			.scale(0.5f)
+
+		var shipImage = resourceManager.loadImage('ship_E.png')
+		addChild(new Sprite(shipImage)
+			.scale(0.5f))
+
+		var tracerImage = resourceManager.loadImage('star_tiny.png')
+		for (var i in 1..9) {
+			addChild(new Sprite(tracerImage)
+				.translate(0f, i * 50f as float)
+				.scale(0.25f)
+				.withName("Tracer $i"))
+		}
+
 		addChild(new ScriptNode(PlayerScript))
 	}
 
@@ -52,8 +67,6 @@ class Player extends Node<Player> {
 		private Camera camera
 
 		// Movement and rotation
-		private Vector2f positionXY = new Vector2f()
-		private Vector2f worldCursorPosition = new Vector2f()
 		private Vector3f unprojectResult = new Vector3f()
 		private Vector2f headingToCursor = new Vector2f()
 		private float heading = 0f
@@ -70,10 +83,7 @@ class Player extends Node<Player> {
 			// Update rotation so the sprite will appear to look at the cursor
 			var cursorPosition = input.cursorPosition()
 			if (cursorPosition) {
-				positionXY.set(node.position)
-				worldCursorPosition
-					.set(camera.unproject(cursorPosition.x(), cursorPosition.y(), unprojectResult))
-					.sub(positionXY, headingToCursor)
+				headingToCursor.set(camera.unproject(cursorPosition.x(), cursorPosition.y(), unprojectResult))
 				var lastHeading = heading
 				heading = headingToCursor.angle(Vector2f.UP)
 				node.rotate(0f, 0f, lastHeading - heading as float)
