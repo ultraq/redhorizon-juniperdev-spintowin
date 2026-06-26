@@ -27,6 +27,7 @@ import org.joml.Vector2f
 import org.joml.Vector3f
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import static org.lwjgl.glfw.GLFW.*
 
 /**
  * The player object in the scene.
@@ -36,6 +37,8 @@ import org.slf4j.LoggerFactory
 class Player extends Node<Player> {
 
 	private static final Logger logger = LoggerFactory.getLogger(Player)
+
+	private static int bulletCount = 1
 
 	/**
 	 * Constructor, creates a new player object.
@@ -71,6 +74,10 @@ class Player extends Node<Player> {
 		private Vector2f headingToCursor = new Vector2f()
 		private float heading = 0f
 
+		// Shooting
+		private float firingCooldown
+		static final float FIRING_RATE = 0.2f
+
 		@Override
 		void init() {
 
@@ -80,6 +87,8 @@ class Player extends Node<Player> {
 		@Override
 		void update(float delta) {
 
+			firingCooldown -= delta
+
 			// Update rotation so the sprite will appear to look at the cursor
 			var cursorPosition = input.cursorPosition()
 			if (cursorPosition) {
@@ -87,6 +96,16 @@ class Player extends Node<Player> {
 				var lastHeading = heading
 				heading = headingToCursor.angle(Vector2f.UP)
 				node.rotate(0f, 0f, lastHeading - heading as float)
+			}
+
+			// Fire bullets
+			if ((input.keyPressed(GLFW_KEY_SPACE) || input.mouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) && firingCooldown <= 0f) {
+				var scene = node.scene
+				scene.queueUpdate { ->
+					scene.addChild(new Bullet(node.transform)
+						.withName("Bullet ${bulletCount++}"))
+				}
+				firingCooldown = FIRING_RATE
 			}
 		}
 	}
