@@ -34,6 +34,7 @@ configure {
 				implementation 'ch.qos.logback:logback-classic:1.5.34'
 				implementation 'info.picocli:picocli:4.7.7'
 				implementation 'io.github.spair:imgui-java-binding:1.90.0'
+				implementation 'nz.net.ultraq:easings:1.0.0'
 				implementation 'nz.net.ultraq.groovy:joml-extensions:0.3.0'
 				implementation 'nz.net.ultraq.redhorizon:redhorizon-engine:0.43.0-SNAPSHOT'
 				implementation 'nz.net.ultraq.redhorizon:redhorizon-graphics:0.43.0-SNAPSHOT'

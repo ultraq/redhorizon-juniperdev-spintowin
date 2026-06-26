@@ -16,6 +16,7 @@
 
 package nz.net.ultraq.spintowin
 
+import nz.net.ultraq.easings.EasingFunctions
 import nz.net.ultraq.redhorizon.engine.scripts.Script
 import nz.net.ultraq.redhorizon.engine.scripts.ScriptNode
 import nz.net.ultraq.redhorizon.graphics.Camera
@@ -68,8 +69,9 @@ class Player extends Node<Player> {
 	static class PlayerScript extends Script<Player> {
 
 		private Camera camera
+		private Sprite sprite
 
-		// Movement and rotation
+		// Rotation
 		private Vector3f unprojectResult = new Vector3f()
 		private Vector2f headingToCursor = new Vector2f()
 		private float heading = 0f
@@ -78,18 +80,31 @@ class Player extends Node<Player> {
 		private float firingCooldown
 		static final float FIRING_RATE = 0.2f
 
+		// Spinning!
+		private static float MAX_SPIN_SPEED = 20f
+		private static float TIME_TO_MAX_SPIN = 2f
+		private float spinTime = 0f
+
 		@Override
 		void init() {
 
 			camera = node.scene.findByType(Camera)
+			sprite = node.findByType(Sprite)
 		}
 
 		@Override
 		void update(float delta) {
 
-			firingCooldown -= delta
+			updateHeading()
+			updateSpin(delta)
+			updateShooting(delta)
+		}
 
-			// Update rotation so the sprite will appear to look at the cursor
+		/**
+		 * Update rotation so the sprite will appear to look at the cursor.
+		 */
+		private void updateHeading() {
+
 			var cursorPosition = input.cursorPosition()
 			if (cursorPosition) {
 				headingToCursor.set(camera.unproject(cursorPosition.x(), cursorPosition.y(), unprojectResult))
@@ -97,8 +112,15 @@ class Player extends Node<Player> {
 				heading = headingToCursor.angle(Vector2f.UP)
 				node.rotate(0f, 0f, lastHeading - heading as float)
 			}
+		}
 
-			// Fire bullets
+		/**
+		 * Fire bullets.
+		 */
+		private void updateShooting(float delta) {
+
+			firingCooldown -= delta
+
 			if ((input.keyPressed(GLFW_KEY_SPACE) || input.mouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) && firingCooldown <= 0f) {
 				var scene = node.scene
 				scene.queueUpdate { ->
@@ -106,6 +128,31 @@ class Player extends Node<Player> {
 						.withName("Bullet ${bulletCount++}"))
 				}
 				firingCooldown = FIRING_RATE
+			}
+		}
+
+		/**
+		 * Spin the ship!
+		 */
+		private void updateSpin(float delta) {
+
+			if (input.keyPressed(GLFW_KEY_A)) {
+				spinTime = Math.max(spinTime - delta, -TIME_TO_MAX_SPIN) as float
+			}
+			else if (input.keyPressed(GLFW_KEY_D)) {
+				spinTime = Math.min(spinTime + delta, TIME_TO_MAX_SPIN) as float
+			}
+			else if (spinTime > 0) {
+				spinTime = Math.max(spinTime - delta, 0f) as float
+			}
+			else if (spinTime < 0) {
+				spinTime = Math.min(spinTime + delta, 0f) as float
+			}
+
+			if (spinTime) {
+				var spin = EasingFunctions.easeInSine(spinTime / TIME_TO_MAX_SPIN as float) * MAX_SPIN_SPEED * delta as float
+				logger.debug('Spin time: {} -> spin value: {} ', sprintf('%.2f', spinTime), sprintf('%.2f', spin))
+				sprite.rotate(0f, spin, 0f)
 			}
 		}
 	}
