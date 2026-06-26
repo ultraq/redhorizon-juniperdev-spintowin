@@ -2,6 +2,8 @@
 redhorizon-juniperdev-spintowin
 ===============================
 
+[![build](https://github.com/ultraq/redhorizon-juniperdev-spintowin/actions/workflows/build.yml/badge.svg)](https://github.com/ultraq/redhorizon-juniperdev-spintowin/actions/workflows/build.yml)
+
 Using Red Horizon to try create an entry for the Very Serious Juniper Dev Game
 Jam.  Theme: Spin To Win
 
