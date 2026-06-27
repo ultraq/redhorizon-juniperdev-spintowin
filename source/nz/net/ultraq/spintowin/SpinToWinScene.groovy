@@ -39,7 +39,7 @@ class SpinToWinScene extends Scene {
 	SpinToWinScene() {
 
 		var window = WINDOW.get()
-		camera = addAndReturnChild(new Camera(WIDTH, HEIGHT, window))
+		camera = addAndReturnChild(new Camera(WIDTH, HEIGHT, 100f, window))
 		player = addAndReturnChild(new Player())
 	}
 }

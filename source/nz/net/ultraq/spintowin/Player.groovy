@@ -142,10 +142,10 @@ class Player extends Node<Player> {
 			else if (input.keyPressed(GLFW_KEY_D)) {
 				spinTime = Math.min(spinTime + delta, TIME_TO_MAX_SPIN) as float
 			}
-			else if (spinTime > 0) {
+			else if (spinTime > 0f) {
 				spinTime = Math.max(spinTime - delta, 0f) as float
 			}
-			else if (spinTime < 0) {
+			else if (spinTime < 0f) {
 				spinTime = Math.min(spinTime + delta, 0f) as float
 			}
 
