@@ -4,8 +4,8 @@ redhorizon-juniperdev-spintowin
 
 [![build](https://github.com/ultraq/redhorizon-juniperdev-spintowin/actions/workflows/build.yml/badge.svg)](https://github.com/ultraq/redhorizon-juniperdev-spintowin/actions/workflows/build.yml)
 
-Using Red Horizon to try create an entry for the Very Serious Juniper Dev Game
-Jam.  Theme: Spin To Win
+Using Red Horizon to try create an entry for [The Very Serious Juniper Dev Game
+Jam](https://itch.io/jam/theveryseriousjuniperdevgamejam).  Theme: Spin To Win
 
 My idea for the theme was to make a top-down shooter where you could curve
 bullets a-la the movie _Wanted_, by spinning your ship.  Unfortunately, I didn't
